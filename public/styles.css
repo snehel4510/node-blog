@@ -36,6 +36,10 @@ body {
         }
         nav h1{
           font-size: 3em;
+          color: cyan;
+        }
+        nav a:hover{
+          color: cyan;
         }
         nav p, nav a{
           color: #777;
@@ -45,6 +49,9 @@ body {
           color: #777;
           text-align: center;
           margin: 80px auto 20px;
+        }
+        footer span{
+          color: cyan;
         }
         h2{
           margin-bottom: 40px;
@@ -57,7 +64,36 @@ body {
           margin-left: 20px;
         }
         /* index styles */
+
+        .blogs a{
+          display: block;
+          margin: 40px 0;
+          padding-left: 30px;
+          border-left: 6px solid cyan;
+        }
+
+        .blogs a:hover h3{
+          color: cyan;
+        }
+
         /* details styles */
+
+        .details{
+          position: relative;
+        }
+        .delete{
+          position: absolute;
+          top: 0;
+          right: 0;
+          border-radius: 50%;
+          padding: 8px;
+          background-color: crimson;
+        }
+        .delete:hover{
+          cursor: pointer;
+          box-shadow: 1px 2px 3px red;
+        }
+
         /* create styles */
         .create-blog form{
           max-width: 400px;
@@ -79,7 +115,7 @@ body {
         }
         .create-blog button{
           margin-top: 20px;
-          background: crimson;
+          background: cyan;
           color: white;
           padding: 6px;
           border: 0;

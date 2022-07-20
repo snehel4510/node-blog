@@ -1,13 +1,20 @@
 const express = require('express')
 const morgan = require('morgan')
+const mongoose = require('mongoose')
+const blogRoutes = require('./routes/blogRoutes')
 
 const app = express()
+
+// connect to mongodb database
+const dbURI = 'mongodb+srv://snehel4510:Snehel%40123@blog-cluster.7kkepha.mongodb.net/node-blog?retryWrites=true&w=majority'
+
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then((result) => app.listen(3000))  // listen for requests after the connection is established
+    .catch(err => console.log(err))
 
 // setting up the template engine
 app.set('view engine', 'ejs');
 
-// listening
-app.listen(3000);
 
 // middleware to get request details for every request being made
 // app.use((req, res, next) => {
@@ -21,16 +28,42 @@ app.use(morgan('dev'));
 // middleware to serve static files (css & images) to the client/browser
 app.use(express.static('public'));
 
+// middleware to parse the request body
+app.use(express.urlencoded({ extended: true }));
+
+// mongoose & mongoDB sandbox routes
+// app.get('/add-blog', (req, res) => {
+//     const blog = new Blog({
+//         title: 'Test Blog 2',
+//         snippet: 'This is a test blog 2',
+//         body: 'This is the body of the test blog 2'
+//     });
+//     blog.save().then(result => {
+//         res.send(result)
+//     }).catch(err => {
+//         console.log(err);
+//     })
+// })
+
+
+// app.get('/all-blogs', (req, res) => {
+//     Blog.find().then(result => {
+//         res.send(result)
+//     }).catch(err => {
+//         console.log(err);
+//     })
+// })
+
 // home page
 app.get('/', (req, res) => {
-
-    const blogs = [
-        { title: 'Blog 1', snippet : 'This is the first blog' },
-        { title: 'Blog 2', snippet : 'This is the second blog' },
-        { title: 'Blog 3', snippet : 'This is the third blog' }
-    ]
-
-    res.render('index', {title: 'Home', blogs});
+    // const blogs = [
+    //     { title: 'Blog 1', snippet : 'This is the first blog' },
+    //     { title: 'Blog 2', snippet : 'This is the second blog' },
+    //     { title: 'Blog 3', snippet : 'This is the third blog' }
+    // ]
+    // res.render('index', {title: 'Home', blogs});
+    // instead of creating a new home page, i am just redirecting the user to the blogs page
+    res.redirect('/blogs')
 });
 
 // about page
@@ -38,10 +71,8 @@ app.get('/about', (req, res) => {
     res.render('about', {title: 'About'});
 });
 
-// create new blog page
-app.get('/blogs/create', (req, res) => {
-    res.render('create', {title: 'Create a new blog'});
-});
+// middleware to get all the blog routes
+app.use('/blogs',blogRoutes)
 
 // 404 page
 app.use((req, res) => {

@@ -2,11 +2,12 @@ const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const blogRoutes = require('./routes/blogRoutes')
+require('dotenv').config();
 
 const app = express()
 
 // connect to mongodb database
-const dbURI = 'mongodb+srv://snehel4510:Snehel%40123@blog-cluster.7kkepha.mongodb.net/node-blog?retryWrites=true&w=majority'
+const dbURI = process.env.URI;
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => app.listen(3000))  // listen for requests after the connection is established
